@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Meus Treinos</title>
 <meta name="theme-color" content="#1a1f2e">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -35,15 +40,22 @@
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html, body {
+  html {
+    height: 100%;
+    height: 100dvh;
+  }
+  body {
     height: 100%;
     background: var(--bg);
     color: var(--fg);
     font-family: 'Barlow', system-ui, sans-serif;
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     overflow: hidden;
+    position: fixed;
+    inset: 0;
+    width: 100%;
   }
 
   /* ── App shell ──────────────────────────────────────────────── */
@@ -54,6 +66,7 @@
     max-width: 480px;
     margin: 0 auto;
     position: relative;
+    overflow: hidden;
   }
 
   /* ── Top bar ────────────────────────────────────────────────── */
@@ -81,11 +94,12 @@
   /* ── Scrollable content ─────────────────────────────────────── */
   #content {
     flex: 1;
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
     padding: 16px;
-    padding-bottom: calc(var(--tab-h) + 16px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(var(--tab-h) + 24px + env(safe-area-inset-bottom, 0px));
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
   }
 
   /* ── Bottom tab bar ─────────────────────────────────────────── */
@@ -115,12 +129,13 @@
     color: var(--fg3);
     cursor: pointer;
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: .8px;
     text-transform: uppercase;
     transition: color .18s;
     padding: 0;
+    -webkit-tap-highlight-color: transparent;
   }
   .tab-btn svg { width: 22px; height: 22px; }
   .tab-btn.active { color: var(--accent); }
@@ -145,16 +160,17 @@
     background: var(--surface);
     border: 1.5px solid var(--border);
     border-radius: 20px;
-    padding: 6px 16px;
+    padding: 8px 18px;
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 15px;
     letter-spacing: .6px;
     text-transform: uppercase;
     color: var(--fg2);
     cursor: pointer;
     transition: all .18s;
     white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
   }
   .day-pill.active {
     background: var(--accent);
@@ -168,7 +184,7 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 14px 16px;
+    padding: 16px 16px;
     display: flex;
     align-items: center;
     gap: 14px;
@@ -190,19 +206,19 @@
   .ex-info { flex: 1; min-width: 0; }
   .ex-name {
     font-weight: 600;
-    font-size: 15px;
+    font-size: 17px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   .ex-meta {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--fg2);
-    margin-top: 2px;
+    margin-top: 3px;
   }
   .check-btn {
     flex-shrink: 0;
-    width: 30px; height: 30px;
+    width: 38px; height: 38px;
     border-radius: 50%;
     border: 2px solid var(--border);
     background: none;
@@ -210,6 +226,7 @@
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: all .18s;
+    -webkit-tap-highlight-color: transparent;
   }
   .check-btn.done {
     background: var(--green);
@@ -286,12 +303,14 @@
     color: var(--fg2);
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
-    font-size: 12px;
+    font-size: 14px;
     letter-spacing: .4px;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: all .18s;
     position: relative;
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
   }
   .build-day-btn.active {
     border-color: var(--accent);
@@ -312,13 +331,15 @@
     background: var(--surface);
     border: 1.5px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 12px 14px;
+    padding: 14px 14px;
     display: flex;
     align-items: center;
     gap: 12px;
     margin-bottom: 8px;
     cursor: pointer;
     transition: all .18s;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 56px;
   }
   .ex-picker-item:hover, .ex-picker-item:focus-visible {
     border-color: var(--accent);
@@ -330,7 +351,7 @@
   .ex-picker-item:focus-visible { outline: 2px solid var(--accent); }
   .picker-check {
     flex-shrink: 0;
-    width: 22px; height: 22px;
+    width: 26px; height: 26px;
     border-radius: 50%;
     border: 2px solid var(--border);
     display: flex; align-items: center; justify-content: center;
@@ -343,9 +364,9 @@
     color: #fff;
   }
   .picker-body { flex: 1; min-width: 0; }
-  .picker-name { font-weight: 600; font-size: 15px; }
+  .picker-name { font-weight: 600; font-size: 17px; }
   .picker-cat {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--fg3);
     text-transform: uppercase;
     letter-spacing: .6px;
@@ -357,16 +378,17 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 12px 14px;
+    padding: 14px 14px;
     display: flex;
     align-items: center;
     gap: 12px;
     margin-bottom: 8px;
+    min-height: 60px;
   }
   .lib-info { flex: 1; min-width: 0; }
-  .lib-name { font-weight: 600; font-size: 15px; }
+  .lib-name { font-weight: 600; font-size: 17px; }
   .lib-cat {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--fg3);
     text-transform: uppercase;
     letter-spacing: .6px;
@@ -375,7 +397,7 @@
   }
   .icon-btn {
     flex-shrink: 0;
-    width: 32px; height: 32px;
+    width: 40px; height: 40px;
     border-radius: 8px;
     border: none;
     background: var(--surface2);
@@ -383,6 +405,7 @@
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: all .18s;
+    -webkit-tap-highlight-color: transparent;
   }
   .icon-btn:hover { color: var(--danger); background: rgba(231,76,60,.15); }
   .icon-btn:focus-visible { outline: 2px solid var(--accent); }
@@ -429,15 +452,17 @@
     padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
     width: 100%;
     max-width: 480px;
-    max-height: 80vh;
+    max-height: 92vh;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   .modal-title {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 22px;
     letter-spacing: .4px;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
   }
 
   /* ── Form elements ──────────────────────────────────────────── */
@@ -457,13 +482,14 @@
     background: var(--surface2);
     border: 1.5px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 10px 12px;
+    padding: 13px 14px;
     color: var(--fg);
     font-family: 'Barlow', sans-serif;
-    font-size: 15px;
+    font-size: 17px;
     outline: none;
     transition: border-color .18s;
     -webkit-appearance: none;
+    min-height: 50px;
   }
   .field input:focus, .field select:focus { border-color: var(--accent); }
 
@@ -473,16 +499,18 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    padding: 11px 20px;
+    padding: 14px 20px;
     border-radius: var(--radius-sm);
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 17px;
     letter-spacing: .6px;
     text-transform: uppercase;
     border: none;
     cursor: pointer;
     transition: all .18s;
+    min-height: 50px;
+    -webkit-tap-highlight-color: transparent;
   }
   .btn-primary { background: var(--accent); color: #fff; }
   .btn-primary:hover { filter: brightness(1.1); }
@@ -506,15 +534,17 @@
     background: var(--surface2);
     border: 1.5px solid var(--border);
     border-radius: 20px;
-    padding: 4px 12px;
+    padding: 7px 14px;
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: .6px;
     text-transform: uppercase;
     color: var(--fg2);
     cursor: pointer;
     transition: all .18s;
+    min-height: 36px;
+    -webkit-tap-highlight-color: transparent;
   }
   .cat-chip.active { background: var(--accent-lo); border-color: var(--accent); color: var(--accent); }
   .cat-chip:focus-visible { outline: 2px solid var(--accent); }
@@ -536,13 +566,14 @@
     background: var(--surface2);
     border: 1.5px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 10px 12px 10px 40px;
+    padding: 13px 14px 13px 42px;
     color: var(--fg);
     font-family: 'Barlow', sans-serif;
-    font-size: 15px;
+    font-size: 17px;
     outline: none;
     transition: border-color .18s;
     -webkit-appearance: none;
+    min-height: 50px;
   }
   .search-wrap input:focus { border-color: var(--accent); }
 
@@ -567,6 +598,9 @@
   }
   #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
+</head>
+<body>
+<div id="app">
 
 <!-- Top bar -->
 <div id="topbar">
@@ -683,6 +717,8 @@
 
 <!-- Toast -->
 <div id="toast"></div>
+
+</div><!-- /app -->
 
 <script>
 // ── State ──────────────────────────────────────────────────────
@@ -1104,3 +1140,5 @@ document.getElementById('inp-name').addEventListener('keydown', e => {
 load();
 renderToday();
 </script>
+</body>
+</html>
